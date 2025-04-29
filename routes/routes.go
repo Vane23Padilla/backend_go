@@ -30,11 +30,11 @@ func SetupRoutes(
 	}).Methods("GET")
 
 	// Rutas para estudiantes
-	router.HandleFunc("/api/estudiantes", estudiantesController.GetAllEstudiantes).Methods("GET")
-	router.HandleFunc("/api/estudiantes/{id}", estudiantesController.GetEstudiante).Methods("GET")
-	router.HandleFunc("/api/estudiantes", estudiantesController.CreateEstudiante).Methods("POST")
-	router.HandleFunc("/api/estudiantes/{id}", estudiantesController.UpdateEstudiante).Methods("PUT")
-	router.HandleFunc("/api/estudiantes/{id}", estudiantesController.DeleteEstudiante).Methods("DELETE")
+	router.HandleFunc("/estudiantes", estudiantesController.GetAllEstudiantes).Methods("GET")
+	router.HandleFunc("/estudiantes/{id}", estudiantesController.GetEstudiante).Methods("GET")
+	router.HandleFunc("/estudiantes", estudiantesController.CreateEstudiante).Methods("POST")
+	router.HandleFunc("/estudiantes/{id}", estudiantesController.UpdateEstudiante).Methods("PUT")
+	router.HandleFunc("/estudiantes/{id}", estudiantesController.DeleteEstudiante).Methods("DELETE")
 
 	// Rutas para asignaturas
 	router.HandleFunc("/api/asignaturas", asignaturasController.GetAllAsignaturas).Methods("GET")
