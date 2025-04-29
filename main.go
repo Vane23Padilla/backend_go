@@ -15,7 +15,7 @@ import (
 func main() {
 	// Cargar variables de entorno
 	if err := godotenv.Load(); err != nil {
-		log.Println("No se encontró archivo .env, usando variables de entorno del sistema")
+		log.Println("No se encontró archivo .env, usando variables del sistema")
 	}
 
 	// Inicializar la base de datos
@@ -34,8 +34,8 @@ func main() {
 	notasController := controllers.NewNotasController(db)
 	asignacionesController := controllers.NewAsignacionesController(db)
 
-	// Configurar rutas
-	router := routes.SetupRoutes(
+	// Configurar rutas del backend
+	apiRouter := routes.SetupRoutes(
 		estudiantesController,
 		asignaturasController,
 		profesoresController,
@@ -45,16 +45,21 @@ func main() {
 		asignacionesController,
 	)
 
-	// Agregar middleware CORS
-	handler := middleware.CorsMiddleware(router)
+	// Aplicar middleware CORS a rutas del backend
+	apiHandler := middleware.CorsMiddleware(apiRouter)
+	http.Handle("/api/", http.StripPrefix("/api", apiHandler))
 
-	// Obtener puerto del servidor
+	// Servir frontend (HTML + JS desde /frontend)
+	fs := http.FileServer(http.Dir("./frontend"))
+	http.Handle("/", fs)
+
+	// Obtener el puerto desde variable de entorno (usado en Railway)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
 
-	// Iniciar servidor
+	// Iniciar el servidor
 	log.Printf("Servidor iniciado en http://localhost:%s", port)
-	log.Fatal(http.ListenAndServe(":"+port, handler))
+	log.Fatal(http.ListenAndServe(":"+port, nil)) // DefaultServeMux maneja todo
 }
