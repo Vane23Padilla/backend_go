@@ -64,6 +64,11 @@ func SetupRoutes(
 	router.HandleFunc("/notas/{id}", notasController.GetNota).Methods("GET")
 	router.HandleFunc("/notas-estudiante/{id}", notasController.GetNotasByEstudiante).Methods("GET")
 
+
+	// Ruta socket
+	router.HandleFunc("/ws", controllers.WebSocketHandler)
+
+	
 	// Rutas para asignaturas disponibles
 	router.HandleFunc("/asignaturas-disponibles", asignacionesController.GetAsignaturasDisponibles).Methods("GET")
 	// Servir archivos estáticos

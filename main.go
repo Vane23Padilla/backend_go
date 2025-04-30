@@ -49,6 +49,9 @@ func main() {
 	apiHandler := middleware.CorsMiddleware(apiRouter)
 	http.Handle("/api/", http.StripPrefix("/api", apiHandler))
 
+	// Ruta para WebSocket
+	http.HandleFunc("/ws", controllers.WebSocketHandler)
+
 	// Servir frontend (HTML + JS desde /frontend)
 	fs := http.FileServer(http.Dir("./frontend"))
 	http.Handle("/", fs)
